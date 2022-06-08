@@ -7,7 +7,8 @@
 
 import Foundation
 
-protocol StepConfiguration {
+protocol StepConfiguration: Hashable {
     var id: String { get }
+    var isConfigured: Bool { get }
     func run(with files: [File]) -> [File]
 }

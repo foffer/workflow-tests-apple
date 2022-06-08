@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var controller = WorkflowController()
-    @State private var actions: [Action] = []
+    @State private var actions: Set<Action> = []
     var body: some View {
         HStack {
-            List(actions) {
+            List(Array(actions)) {
                 action in
                 action.main()
                     .environmentObject(controller)
@@ -20,10 +20,12 @@ struct ContentView: View {
             .frame(minWidth: 200)
             List(Action.allCases) { action in
                 Button(action: {
-                    actions.append(action)
+                    actions.insert(action)
                 }) {
                     action.label()
                 }
+                .disabled(actions.contains(action))
+                .opacity(actions.contains(action) ? 0.5 : 1)
             }
             .frame(width: 250)
         }
